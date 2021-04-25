@@ -1,12 +1,23 @@
+import styled from "styled-components";
 import React from "react";
-import "./App.css";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
 
 function App() {
   return (
-    <div className="app">
-      <h1>Hello</h1>
-    </div>
+    <Container>
+      <Header />
+      <AppBody>
+        <Sidebar />
+      </AppBody>
+    </Container>
   );
 }
 
 export default App;
+
+const Container = styled.div``;
+
+const AppBody = styled.div`
+  display: flex;
+`;
