@@ -9,14 +9,31 @@ import {
   Videocam,
   Keyboard,
 } from "@material-ui/icons";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { openSendMessage } from "./features/mailSlice";
 import SidebarOption from "./SidebarOption";
+import db from "./firebase";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+
+  const [emails, setEmails] = useState([]);
+
+  useEffect(() => {
+    db.collection("emails")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) =>
+        setEmails(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        )
+      );
+  }, []);
+
   return (
     <Container>
       <Button
@@ -28,11 +45,24 @@ const Sidebar = () => {
       </Button>
 
       <SidebarTop>
-        <SidebarOption Icon={Inbox} title="Inbox" number={64} selected />
-        <SidebarOption Icon={Star} title="Starred" number={64} />
-        <SidebarOption Icon={AccessTime} title="Snoozed" number={64} />
-        <SidebarOption Icon={Send} title="Sent" number={64} />
-        <SidebarOption Icon={InsertDriveFile} title="Drafts" number={64} />
+        <SidebarOption Icon={Inbox} title="Inbox" number={emails.length} />
+        <SidebarOption Icon={Star} title="Starred" number={emails.length} />
+        <SidebarOption
+          Icon={AccessTime}
+          title="Snoozed"
+          number={emails.length}
+        />
+        <SidebarOption
+          Icon={Send}
+          title="Sent"
+          number={emails.length}
+          selected
+        />
+        <SidebarOption
+          Icon={InsertDriveFile}
+          title="Drafts"
+          number={emails.length}
+        />
         <SidebarOption Icon={ExpandMore} title="Inbox" showNumber={false} />
       </SidebarTop>
       <SideBarMiddle>

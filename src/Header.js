@@ -9,8 +9,18 @@ import {
   Search,
 } from "@material-ui/icons";
 import { Avatar, IconButton } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "./features/userSlice";
+import { auth } from "./firebase";
 
 const Header = () => {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  const signOut = () => {
+    auth.signOut().then(() => dispatch(logout()));
+  };
+
   return (
     <Container>
       <HeaderLeft>
@@ -31,7 +41,12 @@ const Header = () => {
         <HelpOutline />
         <SettingsOutlined />
         <Apps />
-        <Avatar />
+        <SignOut>
+          <Avatar src={user.photoUrl}>{user.displayName[0]}</Avatar>
+          <DropDown onClick={signOut}>
+            <span>Sign out</span>
+          </DropDown>
+        </SignOut>
       </HeaderRight>
     </Container>
   );
@@ -110,5 +125,38 @@ const HeaderRight = styled.div`
     margin-left: 5px;
     width: 32px !important;
     height: 32px !important;
+  }
+`;
+
+const DropDown = styled.div`
+  position: absolute;
+  top: 48px;
+  right: 0px;
+  background: whitesmoke;
+  z-index: 999;
+  border: 1px solid rgba(151, 151, 151, 0.34);
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+  padding: 10px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  width: 100px;
+  opacity: 0;
+`;
+
+const SignOut = styled.div`
+  position: relative;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    ${DropDown} {
+      opacity: 1;
+      transition-duration: 1s;
+    }
   }
 `;

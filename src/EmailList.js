@@ -9,12 +9,28 @@ import {
   SupervisorAccount,
   LocalOffer,
 } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Section from "./Section.js";
 import EmailRow from "./EmailRow";
+import db from "./firebase";
 
 const EmailList = () => {
+  const [emails, setEmails] = useState([]);
+
+  useEffect(() => {
+    db.collection("emails")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) =>
+        setEmails(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        )
+      );
+  }, []);
+
   return (
     <Container>
       <Settings>
@@ -45,12 +61,21 @@ const EmailList = () => {
         <Section Icon={LocalOffer} title="Promotions" color="green" />
       </Sections>
       <List>
-        <EmailRow
-          title="Twitch"
-          subject="Hey building the gmail clone."
-          description="This is a test"
-          time="10pm"
-        />
+        {console.log(emails)}
+        {emails.map(({ id, data: { to, subject, message, timestamp } }) => (
+          <EmailRow
+            id={id}
+            key={id}
+            title={to}
+            subject={subject}
+            description={message}
+            time={`${new Date(
+              timestamp?.seconds * 1000
+            ).toDateString()} ${new Date(
+              timestamp?.seconds * 1000
+            ).toTimeString()}`.slice(0, 25)}
+          />
+        ))}
       </List>
     </Container>
   );
@@ -64,6 +89,7 @@ const Container = styled.div`
   margin-left: 5px;
   border-right: 1px solid #eee;
   overflow-y: scroll;
+  z-index: 100;
 `;
 
 const Settings = styled.div`

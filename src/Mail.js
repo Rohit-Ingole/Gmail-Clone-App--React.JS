@@ -14,11 +14,14 @@ import {
   WatchLater,
 } from "@material-ui/icons";
 import React from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import styled from "styled-components";
+import { selectOpenMail } from "./features/mailSlice";
 
 const Mail = () => {
   const history = useHistory();
+  const selectedMail = useSelector(selectOpenMail);
   return (
     <Container>
       <MailTools>
@@ -65,13 +68,13 @@ const Mail = () => {
       </MailTools>
       <MailBody>
         <MailBodyHeader>
-          <h2>Subject</h2>
+          <h2>{selectedMail?.subject}</h2>
           <LabelImportant className="mailImportant" />
-          <p>Title</p>
-          <p className="mailTime">10pm</p>
+          <p>{selectedMail?.title}</p>
+          <p className="mailTime">{selectedMail?.time}</p>
         </MailBodyHeader>
         <MailBodyMessage>
-          <p>This is a message.</p>
+          <p>{selectedMail?.description}</p>
         </MailBodyMessage>
       </MailBody>
     </Container>
@@ -86,6 +89,7 @@ const Container = styled.div`
   margin-left: 5px;
   border-right: 1px solid #eee;
   background-color: whitesmoke;
+  z-index: 100;
 `;
 
 const MailTools = styled.div`

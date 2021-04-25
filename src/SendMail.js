@@ -5,19 +5,27 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { closeSendMessage } from "./features/mailSlice";
 import { useDispatch } from "react-redux";
+import db from "./firebase";
+import firebase from "firebase";
 
 const SendMail = () => {
+  const dispatch = useDispatch();
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = (formData) => {
+    db.collection("emails").add({
+      to: formData.to,
+      subject: formData.subject,
+      message: formData.message,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    dispatch(closeSendMessage());
   };
-
-  const dispatch = useDispatch();
 
   return (
     <Container>
@@ -73,6 +81,7 @@ const Container = styled.div`
   flex-direction: column;
   border: 1px solid whitesmoke;
   box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.24);
+  z-index: 999;
 `;
 
 const Header = styled.div`
