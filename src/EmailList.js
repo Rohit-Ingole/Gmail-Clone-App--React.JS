@@ -12,12 +12,13 @@ import {
 import React from "react";
 import styled from "styled-components";
 import Section from "./Section.js";
+import EmailRow from "./EmailRow";
 
 const EmailList = () => {
   return (
     <Container>
       <Settings>
-        <SettingsLeft>
+        <div>
           <Checkbox />
           <IconButton>
             <ArrowDropDown />
@@ -28,21 +29,29 @@ const EmailList = () => {
           <IconButton>
             <MoreVert />
           </IconButton>
-        </SettingsLeft>
-        <SettingsRight>
+        </div>
+        <div>
           <IconButton>
             <ChevronLeft />
           </IconButton>
           <IconButton>
             <ChevronRight />
           </IconButton>
-        </SettingsRight>
+        </div>
       </Settings>
       <Sections>
         <Section Icon={Inbox} title="Primary" color="red" selected={true} />
         <Section Icon={SupervisorAccount} title="Social" color="#1a73e8" />
         <Section Icon={LocalOffer} title="Promotions" color="green" />
       </Sections>
+      <List>
+        <EmailRow
+          title="Twitch"
+          subject="Hey building the gmail clone."
+          description="This is a test"
+          time="10pm"
+        />
+      </List>
     </Container>
   );
 };
@@ -73,10 +82,6 @@ const Settings = styled.div`
   }
 `;
 
-const SettingsLeft = styled.div``;
-
-const SettingsRight = styled.div``;
-
 const Sections = styled.div`
   position: sticky;
   top: 0;
@@ -85,3 +90,5 @@ const Sections = styled.div`
   border-bottom: 1px solid #eee;
   z-index: 999;
 `;
+
+const List = styled.div``;

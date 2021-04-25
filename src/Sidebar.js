@@ -10,13 +10,19 @@ import {
   Keyboard,
 } from "@material-ui/icons";
 import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { openSendMessage } from "./features/mailSlice";
 import SidebarOption from "./SidebarOption";
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
   return (
     <Container>
-      <Button className="sidebar__composeButton">
+      <Button
+        className="sidebar__composeButton"
+        onClick={() => dispatch(openSendMessage())}
+      >
         <Img src="https://fonts.gstatic.com/s/i/productlogos/gsuite_addons/v6/web-64dp/logo_gsuite_addons_color_2x_web_64dp.png" />
         Compose
       </Button>
