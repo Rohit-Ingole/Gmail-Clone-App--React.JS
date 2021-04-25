@@ -1,10 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
-const SidebarOption = ({ Icon, title, number, showNumber = true }) => {
+const SidebarOption = ({
+  Icon,
+  title,
+  number,
+  showNumber = true,
+  selected,
+}) => {
   return (
     <Container>
-      <InnerContainer>
+      <InnerContainer className={`${selected && "sidebarOption--active"}`}>
         <Icon />
         <p className="title">{title}</p>
         {showNumber && <p className="number">{number}</p>}
@@ -15,11 +21,30 @@ const SidebarOption = ({ Icon, title, number, showNumber = true }) => {
 
 export default SidebarOption;
 
-const Container = styled.div``;
+const Container = styled.div`
+  .sidebarOption--active {
+    background-color: #f7e9e9 !important;
+  }
+
+  .sidebarOption--active > .MuiSvgIcon-root,
+  .sidebarOption--active > .title,
+  .sidebarOption--active > .number {
+    color: #d93025 !important;
+  }
+
+  .sidebarOption--active > .title {
+    font-weight: bold;
+  }
+
+  .sidebarOption--active > .number {
+    display: inline;
+  }
+`;
+
 const InnerContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 90%;
+  width: 80%;
   justify-content: space-evenly;
   padding-left: 26px;
   padding-right: 12px;
@@ -38,10 +63,10 @@ const InnerContainer = styled.div`
   }
 
   &&:hover > .title {
-    font-weight: bold;
+    font-weight: 600;
+    color: #d93025;
   }
 
-  &&:hover > .title,
   &&:hover > .MuiSvgIcon-root {
     color: #d93025;
   }

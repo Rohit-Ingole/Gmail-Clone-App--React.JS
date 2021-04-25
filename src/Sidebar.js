@@ -6,6 +6,8 @@ import {
   AccessTime,
   Send,
   Star,
+  Videocam,
+  Keyboard,
 } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
@@ -19,17 +21,37 @@ const Sidebar = () => {
         Compose
       </Button>
 
-      <SidebarOption Icon={Inbox} title="Inbox" number={64} />
-      <SidebarOption Icon={Star} title="Inbox" number={64} />
-      <SidebarOption Icon={AccessTime} title="Inbox" number={64} />
-      <SidebarOption Icon={Send} title="Inbox" number={64} />
-      <SidebarOption Icon={InsertDriveFile} title="Inbox" number={64} />
-      <SidebarOption
-        Icon={ExpandMore}
-        title="Inbox"
-        number={64}
-        showNumber={false}
-      />
+      <SidebarTop>
+        <SidebarOption Icon={Inbox} title="Inbox" number={64} selected />
+        <SidebarOption Icon={Star} title="Starred" number={64} />
+        <SidebarOption Icon={AccessTime} title="Snoozed" number={64} />
+        <SidebarOption Icon={Send} title="Sent" number={64} />
+        <SidebarOption Icon={InsertDriveFile} title="Drafts" number={64} />
+        <SidebarOption Icon={ExpandMore} title="Inbox" showNumber={false} />
+      </SidebarTop>
+      <SideBarMiddle>
+        <p className="meetText">Meet</p>
+        <SidebarOption Icon={Videocam} title="New meeting" showNumber={false} />
+        <SidebarOption
+          Icon={Keyboard}
+          title="Join a meeting"
+          showNumber={false}
+        />
+      </SideBarMiddle>
+      <SidebarBottom>
+        <BottomInnerContainer>
+          <img
+            src="https://ssl.gstatic.com/ui/v1/icons/mail/wbt/contacts_icon21.png"
+            alt=""
+            className="personImage"
+          />
+          <img
+            src="https://ssl.gstatic.com/ui/v1/icons/mail/wbt/hangouts_icon21.png"
+            alt=""
+            className="hangoutImage"
+          />
+        </BottomInnerContainer>
+      </SidebarBottom>
     </Container>
   );
 };
@@ -59,9 +81,39 @@ const Container = styled.div`
     box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.302),
       0 4px 8px 3px rgba(60, 64, 67, 0.149);
   }
+
+  .meetText {
+    margin-left: 26px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 10px;
+  }
 `;
 
 const Img = styled.img`
   height: 35px;
   width: auto;
+`;
+
+const SidebarTop = styled.div`
+  border-bottom: 1px solid #eee;
+  margin-bottom: 15px;
+`;
+const SideBarMiddle = styled.div`
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+`;
+
+const SidebarBottom = styled.div`
+  border-bottom: 1px solid #eee;
+  display: grid;
+  place-items: center;
+  padding: 5px 0;
+`;
+
+const BottomInnerContainer = styled.div`
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
